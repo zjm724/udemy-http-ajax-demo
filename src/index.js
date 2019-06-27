@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import axios from 'axios';
 
-axios.interceptors.request.use((request) => {
+let myInterceptorsRequest = axios.interceptors.request.use((request) => {
     console.log('request: ' + request);
     return request;
 }, (error) => {
@@ -13,13 +13,16 @@ axios.interceptors.request.use((request) => {
     return Promise.reject(error);
 });
 
-axios.interceptors.response.use(response => {
+let myInterceptorsResponse = axios.interceptors.response.use(response => {
     console.log('response: ' + response);
     return response;
 }, (error) => {
     console.log('response error: ' + error);
     return Promise.reject(error);
 });
+
+axios.interceptors.request.eject(myInterceptorsRequest);
+axios.interceptors.response.eject(myInterceptorsResponse);
 
 ReactDOM.render( <App />, document.getElementById( 'root' ) );
 registerServiceWorker();
