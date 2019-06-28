@@ -25,8 +25,8 @@ let myInterceptorsResponse = axios.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-// axios.interceptors.request.eject(myInterceptorsRequest);
-// axios.interceptors.response.eject(myInterceptorsResponse);
+axios.interceptors.request.eject(myInterceptorsRequest);
+axios.interceptors.response.eject(myInterceptorsResponse);
 
 ReactDOM.render( <App />, document.getElementById( 'root' ) );
 registerServiceWorker();
