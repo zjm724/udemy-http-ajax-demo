@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import axios from '../../../axios';
 import Post from '../../../components/Post/Post';
 import './Posts.css';
+import { Link } from 'react-router-dom';
 
 class Posts extends Component {
     state = {
@@ -21,7 +22,7 @@ class Posts extends Component {
                     author: 'Max'
                 }
             });
-            this.setState({posts: updatedPosts});
+            this.setState({ posts: updatedPosts });
             // console.log(response);
         }).catch((error) => {
             console.log(error);
@@ -30,23 +31,25 @@ class Posts extends Component {
     }
 
     postSelectedHandler = (id) => {
-        this.setState({seletedPostId: id});
+        this.setState({ seletedPostId: id });
     }
 
     render() {
         let posts = <p style={{ textAlign: "center" }}>Something went wrong.</p>
         if (!this.state.error) {
             posts = this.state.posts.map((post) => {
-                return <Post
-                    key={post.id}
-                    title={post.title}
-                    author={post.author}
-                    clicked={() => this.postSelectedHandler(post.id)} />;
-            });
-        }
-        return (
-            <section className="Posts" onClick={this.props.clicked}>
-                {posts}
+                return (
+                    <Link to={'/' + post.id} key={post.id}>
+                        <Post
+                        title={post.title}
+                        author={post.author}
+                        clicked={() => this.postSelectedHandler(post.id)} />
+                    </Link >);
+        });
+    }
+    return(
+            <section className = "Posts" onClick = { this.props.clicked } >
+            { posts }
             </section>
         );
     };
