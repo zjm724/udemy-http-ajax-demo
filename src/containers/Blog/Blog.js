@@ -6,7 +6,11 @@ import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
-    render () {
+    state = {
+        auth: false,
+    }
+
+    render() {
         return (
             <div className="Blog">
                 <header>
@@ -17,7 +21,7 @@ class Blog extends Component {
                                 exact
                                 activeClassName="my-active"
                                 activeStyle={{
-                                    color:'#fa923f',
+                                    color: '#fa923f',
                                     textDecoration: 'underline'
                                 }}>Posts</NavLink></li>
                             <li><NavLink to={{
@@ -31,9 +35,10 @@ class Blog extends Component {
                 {/* <Route path="/" exact render={() => <h1>Home</h1>} />
                 <Route path="/" exact render={() => <h1>Home 2</h1>} /> */}
                 <Switch>
-                    <Route path='/new-post' component={NewPost} />
+                    {this.state.auth ? <Route path='/new-post' component={NewPost} /> : null}
                     <Route path='/posts' component={Posts} />
-                    <Redirect from='/' to='/posts' />
+                    <Route render={() => <h1>Not found</h1>} />
+                    {/* <Redirect from='/' to='/posts' /> */}
                     {/* <Route path='/' component={Posts} /> */}
                 </Switch>
             </div>
