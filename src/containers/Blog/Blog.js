@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
 import AsyncComponent from '../../hoc/asyncComponent';
 // import NewPost from './NewPost/NewPost';
+
+const SuspenseDemo = React.lazy(() => import('./SuspenseDemo/SuspenseDemo'));
 
 const AsyncNewPost = AsyncComponent(() => {
     return import('./NewPost/NewPost');
@@ -34,6 +36,9 @@ class Blog extends Component {
                                 hash: '#submit',
                                 search: '?quick-submit=true'
                             }}>New Post</NavLink></li>
+                            <li><NavLink to={{
+                                pathname: '/suspense-demo',
+                            }}>React suspense demo (after v16.6)</NavLink></li>
                         </ul>
                     </nav>
                 </header>
@@ -42,6 +47,11 @@ class Blog extends Component {
                 <Switch>
                     {this.state.auth ? <Route path='/new-post' component={AsyncNewPost} /> : null}
                     <Route path='/posts' component={Posts} />
+                    <Route path='/suspense-demo' render={() => (
+                        <Suspense fallback={<div>loading...</div>}>
+                            <SuspenseDemo />
+                        </Suspense>
+                    )} />
                     <Route render={() => <h1>Not found</h1>} />
                     {/* <Redirect from='/' to='/posts' /> */}
                     {/* <Route path='/' component={Posts} /> */}
